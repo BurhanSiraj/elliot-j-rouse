@@ -1,0 +1,130 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import gsap from "gsap";
+import { heroLabels } from "@/content/portfolio";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
+export function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const reducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (!heroRef.current || !titleRef.current || reducedMotion) {
+      return;
+    }
+
+    const context = gsap.context(() => {
+      gsap.fromTo(
+        "[data-hero-reveal]",
+        { autoAlpha: 0, y: 34 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.08,
+          ease: "power3.out",
+        },
+      );
+
+      gsap.fromTo(
+        titleRef.current,
+        { scale: 1.04, autoAlpha: 0 },
+        { scale: 1, autoAlpha: 1, duration: 1.1, ease: "power3.out" },
+      );
+    }, heroRef);
+
+    return () => context.revert();
+  }, [reducedMotion]);
+
+  return (
+    <section
+      id="top"
+      ref={heroRef}
+      className="relative flex min-h-screen overflow-hidden bg-ink pt-24 text-paper"
+    >
+      <video
+        className="absolute inset-0 size-full object-cover"
+        src="/media/hero-icorr-video.mp4"
+        poster="/media/lab-panorama.jpeg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-ink/48" />
+      <div className="absolute inset-0 bg-primary/20 mix-blend-color" />
+      <div className="noise-layer" />
+
+      <div className="section-shell relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-between py-8 md:py-10">
+        <div
+          data-hero-reveal
+          className="flex flex-wrap items-center justify-between gap-4 text-xs font-bold uppercase text-soft md:text-sm"
+        >
+          <span>Associate Professor | Robotics & Mechanical Engineering</span>
+          <span className="border border-primary/60 bg-ink/35 px-4 py-2 text-primary">
+            University of Michigan
+          </span>
+        </div>
+
+        <div className="py-14 md:py-16">
+          <p
+            data-hero-reveal
+            className="mb-5 text-base font-black uppercase text-primary md:text-2xl"
+          >
+            Director, Neurobionics Lab
+          </p>
+          <h1
+            ref={titleRef}
+            className="max-w-6xl text-6xl font-black uppercase leading-[0.9] tracking-normal text-paper md:text-8xl lg:text-[9rem] xl:text-[11rem]"
+          >
+            Elliott
+            <br />
+            Rouse
+          </h1>
+          <p
+            data-hero-reveal
+            className="mt-8 max-w-3xl text-xl font-semibold leading-8 text-soft md:text-2xl md:leading-10"
+          >
+            Building a new generation of wearable robotic technologies by studying how
+            the nervous system controls human movement.
+          </p>
+
+          <div data-hero-reveal className="mt-9 flex flex-wrap gap-3">
+            <a
+              href="#work"
+              className="inline-flex items-center gap-2 bg-primary px-5 py-3 text-sm font-black uppercase text-ink transition hover:bg-paper"
+            >
+              Explore work
+              <ArrowDown aria-hidden="true" size={16} />
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 border border-white/20 bg-ink/40 px-5 py-3 text-sm font-black uppercase text-paper transition hover:border-primary hover:text-primary"
+            >
+              Connect
+              <ArrowUpRight aria-hidden="true" size={16} />
+            </a>
+          </div>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-3">
+          {heroLabels.map((item) => (
+            <div
+              data-hero-reveal
+              key={item.label}
+              className="border border-white/15 bg-ink/35 p-4 backdrop-blur-sm"
+            >
+              <p className="text-xs font-black uppercase text-primary">{item.label}</p>
+              <p className="mt-2 text-sm font-semibold text-paper md:text-base">{item.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

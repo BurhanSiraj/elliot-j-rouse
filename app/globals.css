@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #439CB5;
+  --color-ink: #05080A;
+  --color-panel: #0D1417;
+  --color-paper: #F3F7F8;
+  --color-soft: #DCE8EB;
+  --color-copper: #C86B4F;
+  --font-sans: Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --primary: #439CB5;
+  --ink: #05080A;
+  --panel: #0D1417;
+  --paper: #F3F7F8;
+  --soft: #DCE8EB;
+  --copper: #C86B4F;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--ink);
+  scroll-padding-top: 88px;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: Arial, Helvetica, sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--ink);
+}
+
+a,
+button {
+  outline-color: var(--primary);
+}
+
+button {
+  cursor: pointer;
+}
+
+video,
+img {
+  max-width: 100%;
+}
+
+.section-shell {
+  width: min(100% - 32px, 1440px);
+  margin-inline: auto;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.noise-layer {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mix-blend-mode: screen;
+}
+
+.primary-ring {
+  box-shadow: inset 0 0 0 1px rgba(67, 156, 181, 0.34);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
